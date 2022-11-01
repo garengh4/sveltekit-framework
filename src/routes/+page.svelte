@@ -1,59 +1,52 @@
 <script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+    import schools from "../schools.json";
+
+    let selectedSchool = null;
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+    <title>Home</title>
+    <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+    <h2>
+        try editing <strong>src/routes/+page.svelte</strong>
+    </h2>
 
-		to your new<br />SvelteKit app
-	</h1>
+    <!-- =========================================================================================================================== -->
+    <main>
+        {#if selectedSchool}
+            <!-- svelte-ignore a11y-invalid-attribute -->
+            <p><a href="#" on:click={() => selectedSchool = null}>Go back to school list</a></p>
+            <h1>School : {selectedSchool.SCHOOLNAME}</h1>
+            <p>Education Level : {selectedSchool.SCH_TYPE}</p>
+            <p>Principal : {selectedSchool.PRINCIPAL}</p>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+        {:else}
+            <ul>
+                <h3>School List</h3>
+                <p>Select a school to read some details about it</p>
+                {#each schools as school} 
+                    <!-- svelte-ignore a11y-invalid-attribute -->
+                    <li><a href="#" on:click={() => selectedSchool = school}>{school.SCHOOLNAME}</a></li>
+                {/each}
+            </ul>
+        {/if}
 
-	<Counter />
+    </main>
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 0.6;
+    }
 
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
+    h1 {
+        width: 100%;
+    }
 </style>
